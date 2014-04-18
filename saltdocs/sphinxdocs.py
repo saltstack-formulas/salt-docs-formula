@@ -40,57 +40,28 @@ class Redirect(object):
         raise cherrypy.HTTPRedirect(url)
 
 if __name__ == '__main__':
+    cherrypy.config.update('sphinxdocs.ini')
+
     conf = {
-        'global': {
-            'server.socket_host': '0.0.0.0',
-            'server.socket_port': 8000,
-            'server.thread_pool': 50,
-        },
-
         '/': {
-            'tools.gzip.on': True,
-            'tools.trailing_slash.on': True,
-
-            'request.dispatch': cherrypy.dispatch.VirtualHost(**{
-                'docs.saltstack.com:8000':       '/saltdocs',
-                'salt.docs.saltstack.com:8000':  '/saltdocs',
-                'raet.docs.saltstack.com:8000':  '/raetdocs',
-                'bootstrap.saltstack.com:8000':  '/bootstrap',
-            }),
-
-            'tools.staticdir.index': 'index.html',
-            'tools.staticdir.root': '/tmp',
-            'tools.staticdir.debug': True,
-            # 'error_page.404': os.path.join(localDir, "static/index.html")
-        },
-
-        '/saltdocs/en': {
-            'tools.staticdir.on': True
-        },
-
-        '/saltdocs/en/latest': {
-            'tools.staticdir.dir': '/home/shouse/src/salt/salt/doc/_build/html'
-        },
-
-        '/raetdocs/en/latest': {
-            'tools.staticdir.dir': '/home/shouse/src/raet/raet/doc/_build/html'
-        },
-
-        '/favicon.ico': {
-            'tools.staticfile.on': True,
-            'tools.staticfile.filename': '/path/to/favicon.ico',
+            'request.dispatch': cherrypy.dispatch.VirtualHost(
+                **cherrypy.config.get('vhost_urls', {})),
         },
     }
 
-    url_map = {
-        'index': 'https://raw.github.com/blah',
-    }
-
-    domains_map = {
+    site_paths = {
         'saltdocs': SphinxDocs(),
         'raetdocs': SphinxDocs(),
-        'bootstrap': Redirect(url_map),
+        'bootstrap': Redirect(cherrypy.config.get('bootstrap_urls', {})),
     }
 
-    Root = type('Root', (object,), domains_map)
-    cherrypy.quickstart(Root(), '/', conf)
+    Root = type('Root', (object,), site_paths)
+    app = cherrypy.tree.mount(Root(), '/', conf)
+    app.merge('sphinxdocs.ini')
+
+    if hasattr(cherrypy.engine, "signal_handler"):
+        cherrypy.engine.signal_handler.subscribe()
+    if hasattr(cherrypy.engine, "console_control_handler"):
+        cherrypy.engine.console_control_handler.subscribe()
+    cherrypy.engine.start()
+    cherrypy.engine.block()
