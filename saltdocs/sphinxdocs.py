@@ -9,7 +9,10 @@ Development: add /etc/hosts entries for a given domain; run::
 
 Production: run::
 
-    cherryd -e production -d -p /var/run/sphinxdocs.pid sphinxdocs.py
+    cherryd -e production -d \\
+        -c /path/to/config.ini \\
+        -p /var/run/sphinxdocs.pid \\
+        sphinxdocs.py
 '''
 #pylint: disable=W0142
 import cherrypy
