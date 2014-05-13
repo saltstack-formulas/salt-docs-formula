@@ -59,6 +59,13 @@ if __name__ == '__main__':
     app = cherrypy.tree.mount(Root(), '/', conf)
     app.merge('sphinxdocs.ini')
 
+    if cherrypy.config.get('server.user'):
+        cherrypy.process.plugins.DropPrivileges(cherrypy.engine,
+            umask=022,
+            uid=cherrypy.config.get('server.user'),
+            gid=cherrypy.config.get('server.group'),
+        ).subscribe()
+
     if hasattr(cherrypy.engine, "signal_handler"):
         cherrypy.engine.signal_handler.subscribe()
     if hasattr(cherrypy.engine, "console_control_handler"):
