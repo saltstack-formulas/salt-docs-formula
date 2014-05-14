@@ -8,6 +8,9 @@
 {% set version = saltdocs.get('version', 'develop') %}
 {% set build_dir = '{0}/_build/salt-{1}'.format(doc_dir, version) %}
 
+# Only build whitelisted versions.
+{% if version in saltdocs.get('versions', []) %}
+
 include:
   - git
   - sphinx_doc.sphinx_venv
@@ -30,3 +33,5 @@ builddocs:
     - cwd: {{ doc_dir }}
     - require:
       - git: salt_repo
+
+{% endif %}
