@@ -3,6 +3,7 @@ saltdocs:
 
   # Whitelisted versions to build.
   versions:
+    - develop
     - v2014.1.4
     - v0.17.5
 
