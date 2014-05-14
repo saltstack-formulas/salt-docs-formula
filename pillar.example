@@ -4,8 +4,8 @@ saltdocs:
   # Whitelisted versions to build.
   versions:
     - develop
-    - v2014.1.4
-    - v0.17.5
+    - 2014.1
+    - 0.17
 
 sphinx_doc:
   venv: /var/venvs/sphinx
