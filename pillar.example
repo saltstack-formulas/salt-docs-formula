@@ -1,0 +1,10 @@
+saltdocs:
+  salt_repo: https://github.com/saltstack/salt.git
+
+  # Whitelisted versions to build.
+  versions:
+    - v2014.1.4
+    - v0.17.5
+
+sphinx_doc:
+  venv: /var/venvs/sphinx
