@@ -1,3 +1,6 @@
+include:
+  - cherrypy.pip
+
 sphinxdocs_init:
   file:
     - managed
@@ -12,3 +15,4 @@ sphinxdocs_service:
     - enable: True
     - require:
       - file: sphinxdocs_init
+      - pip: cherrypy_pip
