@@ -13,7 +13,7 @@
 
 include:
   - git
-  - sphinx_doc.sphinx_venv
+  - sphinx_doc.venv
 
 salt_repo:
   git:
