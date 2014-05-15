@@ -15,6 +15,12 @@ include:
   - git
   - sphinx_doc.venv
 
+salt_src_dir:
+  file:
+    - directory
+    - name: {{ src_dir }}
+    - makedirs: True
+
 salt_repo:
   git:
     - latest
@@ -23,6 +29,7 @@ salt_repo:
     - target: {{ src_dir }}
     - require:
       - pkg: git
+      - file: salt_src_dir
 
 builddocs:
   cmd:
