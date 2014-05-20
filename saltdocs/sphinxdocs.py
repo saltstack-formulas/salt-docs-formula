@@ -15,6 +15,8 @@ Production: run::
         sphinxdocs.py
 '''
 #pylint: disable=W0142
+import os
+
 import cherrypy
 
 class SphinxDocs(object):
@@ -42,9 +44,7 @@ class Redirect(object):
 
         raise cherrypy.HTTPRedirect(url)
 
-if __name__ == '__main__':
-    cherrypy.config.update('sphinxdocs.ini')
-
+def get_app():
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.VirtualHost(
@@ -60,7 +60,6 @@ if __name__ == '__main__':
 
     Root = type('Root', (object,), site_paths)
     app = cherrypy.tree.mount(Root(), '/', conf)
-    app.merge('sphinxdocs.ini')
 
     if cherrypy.config.get('server.user'):
         cherrypy.process.plugins.DropPrivileges(cherrypy.engine,
@@ -68,6 +67,15 @@ if __name__ == '__main__':
             uid=cherrypy.config.get('server.user'),
             gid=cherrypy.config.get('server.group'),
         ).subscribe()
+
+    return app
+
+if __name__ == '__main__':
+    conf_file = os.path.join(os.path.abspath(
+        os.path.dirname(__file__)), 'sphinxdocs.ini')
+
+    cherrypy.config.update(conf_file)
+    app = get_app()
 
     if hasattr(cherrypy.engine, "signal_handler"):
         cherrypy.engine.signal_handler.subscribe()
