@@ -12,7 +12,8 @@ Production: run::
     cherryd -e production -d \\
         -c /path/to/config.ini \\
         -p /var/run/sphinxdocs.pid \\
-        sphinxdocs.py
+        -P /path/to/sphinxdocs-parentdir
+        -i sphinxdocs
 '''
 #pylint: disable=W0142
 import os
