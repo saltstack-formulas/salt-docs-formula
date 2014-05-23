@@ -45,12 +45,13 @@ cleandocs:
 
 builddocs:
   cmd:
-    - run
+    - wait
     - name: |
         make {{ format }} SPHINXOPTS='-q' BUILDDIR={{ build_dir }} \
             SPHINXBUILD={{ venv }}/bin/sphinx-build
+
     - cwd: {{ doc_dir }}
-    - require:
+    - watch:
       - git: salt_repo
 
 {% endif %}
