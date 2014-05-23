@@ -1,5 +1,10 @@
+sphinx_doc:
+  venv: /var/venvs/sphinx
+
 saltdocs:
   salt_repo: https://github.com/saltstack/salt.git
+  app_dir: /root
+  src_dir: /root/salt
 
   # Whitelisted versions to build.
   versions:
@@ -7,5 +12,48 @@ saltdocs:
     - 2014.1
     - 0.17
 
-sphinx_doc:
-  venv: /var/venvs/sphinx
+  conf:
+    global:
+      tree.app: sphinxdocs.get_app()
+
+      server.socket_host: '0.0.0.0'
+      server.socket_port: 8000
+      server.thread_pool: 50
+      # server.user: nobody
+      # server.group: nobody
+
+      tools.gzip.on: 'True'
+      tools.trailing_slash.on: 'True'
+
+      tools.staticdir.index: index.html
+      tools.staticdir.debug: 'True'
+      error_page.404: /path/to/404.html
+      tools.staticdir.root: /tmp
+
+      # See sphinxdocs.py for available ``site_paths`` values.
+      vhost_urls:
+        docs.saltstack.com:8000:       /saltdocs
+        salt.docs.saltstack.com:8000:  /saltdocs
+        raet.docs.saltstack.com:8000:  /raetdocs
+        bootstrap.saltstack.com:8000:  /bootstrap
+
+      # Redirect URLs for bootstrap.saltstack.com. ``index`` is the root URL.
+      bootstrap_urls:
+        index: https://raw.githubusercontent.com/saltstack/salt-bootstrap/stable/bootstrap-salt.sh
+        develop: https://raw.githubusercontent.com/saltstack/salt-bootstrap/develop/bootstrap-salt.sh
+
+    /favicon.ico:
+      tools.staticfile.on: 'True'
+      tools.staticfile.filename: /path/to/favicon.ico
+
+    /saltdocs/en:
+      tools.staticdir.on: 'True'
+
+    /saltdocs/en/latest:
+      tools.staticdir.dir: /path/to/salt/doc/_build/develop
+
+    /saltdocs/en/v2014.1:
+      tools.staticdir.dir: /path/to/salt/doc/_build/v2014.1
+
+    /raetdocs/en/latest:
+      tools.staticdir.dir: /path/to/raet/doc/_build/develop
