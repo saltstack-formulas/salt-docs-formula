@@ -12,6 +12,9 @@ saltdocs:
     - 2014.1
     - 0.17
 
+  # Clean old builds before building docs.
+  clean: False
+
   conf:
     global:
       tree.app: sphinxdocs.get_app()

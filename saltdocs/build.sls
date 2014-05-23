@@ -31,6 +31,18 @@ salt_repo:
       - pkg: git
       - file: salt_src_dir
 
+{% if saltdocs.get('clean') %}
+cleandocs:
+  cmd:
+    - run
+    - name: |
+        make clean SPHINXOPTS='-q' BUILDDIR={{ build_dir }} \
+            SPHINXBUILD={{ venv }}/bin/sphinx-build
+    - cwd: {{ doc_dir }}
+    - require_in:
+      - cmd: builddocs
+{% endif %}
+
 builddocs:
   cmd:
     - run
