@@ -26,6 +26,9 @@ sphinxdocs_init:
     - name: /etc/init.d/sphinxdocs
     - source: salt://saltdocs/sphinxdocs.init
     - template: jinja
+    - mode: 0775
+    - context:
+        config: {{ saltdocs | json() }}
 
 sphinxdocs_service:
   service:

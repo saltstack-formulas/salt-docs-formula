@@ -37,7 +37,7 @@ fi
 
 # Default values (can be overridden below)
 CHERRYD=/usr/bin/cherryd
-SPHINXDOCS_DIR=/srv/salt/saltdocs
+SPHINXDOCS_DIR={{ config.app_dir }}
 SPHINXDOCS_INI=/etc/sphinxdocs.ini
 SPHINXDOCS_PID=/var/run/sphinxdocs.pid
 CHERRYD_ARGS="-d -e production -c ${SPHINXDOCS_INI} -p ${SPHINXDOCS_PID} -P ${SPHINXDOCS_DIR} -i sphinxdocs"
