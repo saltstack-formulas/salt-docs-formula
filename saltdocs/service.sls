@@ -5,6 +5,12 @@
 include:
   - cherrypy.pip
 
+sphinxdocs_app:
+  file:
+    - managed
+    - name: {{ app_dir }}/sphinxdocs.py
+    - source: salt://saltdocs/sphinxdocs.py
+
 sphinxdocs_ini:
   file:
     - managed
