@@ -14,3 +14,29 @@ Available states
 
 .. contents::
     :local:
+
+``sphinxdocs.build``
+--------------------
+
+A macro that generates states that will kick off a Sphinx build for certain
+docs of a certain version of a certain format.
+
+Requires:
+
+* git-formula
+* sphinx-doc-formula
+* Pillar:
+
+  * ``sphinx_doc:venv`` to point to the virtualenv that Sphinx is installed to.
+
+``sphinxdocs.service``
+----------------------
+
+Install the ``sphinxdocs.py`` script in this repository, register it as a
+service, configure it with data from Pillar and the ``defaults.yaml`` file,
+then start the service.
+
+Requires:
+
+* cherrypy-formula
+* pip-formula
