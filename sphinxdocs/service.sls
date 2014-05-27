@@ -1,4 +1,6 @@
-{% set sphinxdocs = salt['pillar.get']('sphinxdocs', {}) %}
+{% import_yaml 'sphinxdocs/defaults.yaml' as defaults %}
+{# TODO: use pillar.get() with merge arg to override via Pillar #}
+{% set sphinxdocs = defaults['sphinxdocs'] %}
 
 {% set app_dir = sphinxdocs.get('app_dir', '/var/sphinxdocs') %}
 

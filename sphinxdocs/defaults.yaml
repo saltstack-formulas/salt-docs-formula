@@ -1,6 +1,3 @@
-sphinx_doc:
-  venv: /var/venvs/sphinx
-
 sphinxdocs:
   app_dir: /var/sphinxdocs
 
