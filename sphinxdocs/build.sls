@@ -1,37 +1,29 @@
-{% set sphinxdocs = salt['pillar.get']('sphinxdocs', {}) %}
+{% macro builddocs(doc, repo, version, format, src_dir, doc_dir, build_dir,
+    clean=False) %}
+
 {% set venv = salt['pillar.get']('sphinx_doc:venv') %}
-
-{% set salt_repo = sphinxdocs.get('salt_repo', 'https://github.com/saltstack/salt.git') %}
-{% set src_dir = sphinxdocs.get('src_dir', '/root/salt') %}
-{% set doc_dir = '{0}/doc'.format(src_dir) %}
-{% set format = sphinxdocs.get('format', 'html') %}
-{% set version = sphinxdocs.get('version', 'develop') %}
-{% set build_dir = '{0}/_build/salt-{1}'.format(doc_dir, version) %}
-
-# Only build whitelisted versions.
-{% if version in sphinxdocs.get('versions', []) %}
 
 include:
   - git
   - sphinx_doc.venv
 
-salt_src_dir:
+src_dir:
   file:
     - directory
     - name: {{ src_dir }}
     - makedirs: True
 
-salt_repo:
+repo:
   git:
     - latest
-    - name: {{ salt_repo }}
+    - name: {{ repo }}
     - rev: {{ version }}
     - target: {{ src_dir }}
     - require:
       - pkg: git
-      - file: salt_src_dir
+      - file: src_dir
 
-{% if sphinxdocs.get('clean') %}
+{% if clean %}
 cleandocs:
   cmd:
     - run
@@ -49,9 +41,8 @@ builddocs:
     - name: |
         make {{ format }} SPHINXOPTS='-q' BUILDDIR={{ build_dir }} \
             SPHINXBUILD={{ venv }}/bin/sphinx-build
-
     - cwd: {{ doc_dir }}
     - watch:
-      - git: salt_repo
+      - git: repo
 
-{% endif %}
+{% endmacro %}
