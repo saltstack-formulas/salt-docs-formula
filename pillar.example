@@ -2,18 +2,39 @@ sphinx_doc:
   venv: /var/venvs/sphinx
 
 sphinxdocs:
-  salt_repo: https://github.com/saltstack/salt.git
-  app_dir: /root
-  src_dir: /root/salt
+  app_dir: /var/sphinxdocs
 
-  # Whitelisted versions to build.
-  versions:
-    - develop
-    - 2014.1
-    - 0.17
+  docs:
+    saltdocs:
+      repo: https://github.com/saltstack/salt.git
+      src_dir: /var/sphinxdocs/salt
+      doc_dir: /var/sphinxdocs/salt/doc
+      build_dir: '/var/sphinxdocs/salt/doc/_build/salt-{version}'
 
-  # Clean old builds before building docs.
-  clean: False
+      versions_whitelist:
+        - develop
+        - 2014.1
+        - 0.17
+
+      formats:
+        - html
+        - latexpdf
+        - epub
+
+    raetdocs:
+      repo: https://github.com/saltstack/raet.git
+      src_dir: /var/sphinxdocs/raet
+      doc_dir: /var/sphinxdocs/raet/docs
+      build_dir: '/var/sphinxdocs/raet/docs/_build/raet-{version}'
+
+      versions_whitelist:
+        - master
+        - v0.0.14
+
+      formats:
+        - html
+        - latexpdf
+        - epub
 
   conf:
     global:
@@ -48,15 +69,3 @@ sphinxdocs:
     /favicon.ico:
       tools.staticfile.on: 'True'
       tools.staticfile.filename: /path/to/favicon.ico
-
-    /saltdocs/en:
-      tools.staticdir.on: 'True'
-
-    /saltdocs/en/latest:
-      tools.staticdir.dir: /path/to/salt/doc/_build/develop
-
-    /saltdocs/en/v2014.1:
-      tools.staticdir.dir: /path/to/salt/doc/_build/v2014.1
-
-    /raetdocs/en/latest:
-      tools.staticdir.dir: /path/to/raet/doc/_build/develop
