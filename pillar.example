@@ -29,7 +29,7 @@ saltdocs:
       tools.trailing_slash.on: 'True'
 
       tools.staticdir.index: index.html
-      tools.staticdir.debug: 'True'
+      # tools.staticdir.debug: 'True'
       error_page.404: /path/to/404.html
       tools.staticdir.root: /tmp
 
