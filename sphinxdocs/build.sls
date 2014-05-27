@@ -1,15 +1,15 @@
-{% set saltdocs = salt['pillar.get']('saltdocs', {}) %}
+{% set sphinxdocs = salt['pillar.get']('sphinxdocs', {}) %}
 {% set venv = salt['pillar.get']('sphinx_doc:venv') %}
 
-{% set salt_repo = saltdocs.get('salt_repo', 'https://github.com/saltstack/salt.git') %}
-{% set src_dir = saltdocs.get('src_dir', '/root/salt') %}
+{% set salt_repo = sphinxdocs.get('salt_repo', 'https://github.com/saltstack/salt.git') %}
+{% set src_dir = sphinxdocs.get('src_dir', '/root/salt') %}
 {% set doc_dir = '{0}/doc'.format(src_dir) %}
-{% set format = saltdocs.get('format', 'html') %}
-{% set version = saltdocs.get('version', 'develop') %}
+{% set format = sphinxdocs.get('format', 'html') %}
+{% set version = sphinxdocs.get('version', 'develop') %}
 {% set build_dir = '{0}/_build/salt-{1}'.format(doc_dir, version) %}
 
 # Only build whitelisted versions.
-{% if version in saltdocs.get('versions', []) %}
+{% if version in sphinxdocs.get('versions', []) %}
 
 include:
   - git
@@ -31,7 +31,7 @@ salt_repo:
       - pkg: git
       - file: salt_src_dir
 
-{% if saltdocs.get('clean') %}
+{% if sphinxdocs.get('clean') %}
 cleandocs:
   cmd:
     - run

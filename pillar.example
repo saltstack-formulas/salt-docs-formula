@@ -1,7 +1,7 @@
 sphinx_doc:
   venv: /var/venvs/sphinx
 
-saltdocs:
+sphinxdocs:
   salt_repo: https://github.com/saltstack/salt.git
   app_dir: /root
   src_dir: /root/salt

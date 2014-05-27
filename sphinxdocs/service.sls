@@ -1,6 +1,6 @@
-{% set saltdocs = salt['pillar.get']('saltdocs', {}) %}
+{% set sphinxdocs = salt['pillar.get']('sphinxdocs', {}) %}
 
-{% set app_dir = saltdocs.get('app_dir', '/root') %}
+{% set app_dir = sphinxdocs.get('app_dir', '/root') %}
 
 include:
   - cherrypy.pip
@@ -9,26 +9,26 @@ sphinxdocs_app:
   file:
     - managed
     - name: {{ app_dir }}/sphinxdocs.py
-    - source: salt://saltdocs/sphinxdocs.py
+    - source: salt://sphinxdocs/sphinxdocs.py
 
 sphinxdocs_ini:
   file:
     - managed
     - name: /etc/sphinxdocs.ini
-    - source: salt://saltdocs/files/sphinxdocs.ini
+    - source: salt://sphinxdocs/files/sphinxdocs.ini
     - template: jinja
     - context:
-        config: {{ saltdocs.get('conf', {}) | json() }}
+        config: {{ sphinxdocs.get('conf', {}) | json() }}
 
 sphinxdocs_init:
   file:
     - managed
     - name: /etc/init.d/sphinxdocs
-    - source: salt://saltdocs/files/sphinxdocs.init
+    - source: salt://sphinxdocs/files/sphinxdocs.init
     - template: jinja
     - mode: 0775
     - context:
-        config: {{ saltdocs | json() }}
+        config: {{ sphinxdocs | json() }}
 
 sphinxdocs_service:
   service:
