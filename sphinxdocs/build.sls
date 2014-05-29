@@ -26,7 +26,7 @@
     - run
     - name: |
         make clean SPHINXOPTS='-q' BUILDDIR={{ build_dir }} \
-            SPHINXBUILD={{ venv }}/bin/sphinx-build
+            SPHINXBUILD={{ venv }}/bin/sphinx-build 2>/dev/null || true
     - cwd: {{ doc_dir }}
     - require_in:
       - cmd: {{ id_prefix }}_builddocs
