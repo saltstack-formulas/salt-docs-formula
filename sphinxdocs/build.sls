@@ -1,6 +1,7 @@
 {% macro builddocs(doc, version, format, repo, src_dir, doc_dir, build_dir,
     clean=False) %}
 
+{% set build_dir = build_dir.format(version=version) %}
 {% set id_prefix = '_'.join([doc, format, version]) %}
 {% set venv = salt['pillar.get']('sphinx_doc:venv') %}
 
