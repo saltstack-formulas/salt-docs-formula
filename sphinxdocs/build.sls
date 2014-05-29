@@ -1,19 +1,20 @@
 {% macro builddocs(doc, version, format, repo, src_dir, doc_dir, build_dir,
     clean=False) %}
 
+{% set id_prefix = '_'.join([doc, format, version]) %}
 {% set venv = salt['pillar.get']('sphinx_doc:venv') %}
 
 include:
   - git
   - sphinx_doc.venv
 
-src_dir:
+'{{ doc }}_src_dir':
   file:
     - directory
     - name: {{ src_dir }}
     - makedirs: True
 
-repo:
+'{{ doc }}_repo':
   git:
     - latest
     - name: {{ repo }}
@@ -21,10 +22,10 @@ repo:
     - target: {{ src_dir }}
     - require:
       - pkg: git
-      - file: src_dir
+      - file: {{ doc }}_src_dir
 
 {% if clean %}
-cleandocs:
+'{{ id_prefix }}_cleandocs':
   cmd:
     - run
     - name: |
@@ -32,10 +33,10 @@ cleandocs:
             SPHINXBUILD={{ venv }}/bin/sphinx-build
     - cwd: {{ doc_dir }}
     - require_in:
-      - cmd: builddocs
+      - cmd: {{ id_prefix }}_builddocs
 {% endif %}
 
-builddocs:
+'{{ id_prefix }}_builddocs':
   cmd:
     - wait
     - name: |
@@ -43,6 +44,6 @@ builddocs:
             SPHINXBUILD={{ venv }}/bin/sphinx-build
     - cwd: {{ doc_dir }}
     - watch:
-      - git: repo
+      - git: {{ doc }}_repo
 
 {% endmacro %}
