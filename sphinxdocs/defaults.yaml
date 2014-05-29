@@ -13,7 +13,7 @@ sphinxdocs:
         - 2014.1
         - 0.17
 
-      formats:
+      formats_whitelist:
         - html
         - latexpdf
         - epub
@@ -28,7 +28,7 @@ sphinxdocs:
         - master
         - v0.0.14
 
-      formats:
+      formats_whitelist:
         - html
         - latexpdf
         - epub
