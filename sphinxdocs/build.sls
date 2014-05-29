@@ -1,4 +1,4 @@
-{% macro builddocs(doc, repo, version, format, src_dir, doc_dir, build_dir,
+{% macro builddocs(doc, version, format, repo, src_dir, doc_dir, build_dir,
     clean=False) %}
 
 {% set venv = salt['pillar.get']('sphinx_doc:venv') %}
