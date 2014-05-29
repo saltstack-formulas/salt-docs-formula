@@ -4,10 +4,6 @@
 {% set id_prefix = '_'.join([doc, format, version]) %}
 {% set venv = salt['pillar.get']('sphinx_doc:venv') %}
 
-include:
-  - git
-  - sphinx_doc.venv
-
 '{{ doc }}_src_dir':
   file:
     - directory
@@ -47,3 +43,17 @@ include:
       - git: {{ doc }}_repo
 
 {% endmacro %}
+
+
+{% set build = salt['pillar.get']('sphinxdocs:build') %}
+{% if build %}
+{% import_yaml "sphinxdocs/defaults.yaml" as defaults %}
+{% set conf = defaults.sphinxdocs.docs[build.doc] %}
+
+include:
+  - git
+  - sphinx_doc.venv
+
+{{ builddocs(build.doc, build.version, build.format, conf.repo, conf.src_dir, conf.doc_dir, conf.build_dir) }}
+
+{% endif %}
