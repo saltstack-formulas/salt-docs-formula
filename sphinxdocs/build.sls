@@ -34,7 +34,7 @@
 
 '{{ id_prefix }}_builddocs':
   cmd:
-    - wait
+    - {{ 'run' if clean else 'wait' }}
     - name: |
         make {{ format }} SPHINXOPTS='-q' BUILDDIR={{ build_dir }} \
             SPHINXBUILD={{ venv }}/bin/sphinx-build
@@ -54,6 +54,6 @@ include:
   - git
   - sphinx_doc.venv
 
-{{ builddocs(build.doc, build.version, build.format, conf.repo, conf.src_dir, conf.doc_dir, conf.build_dir) }}
+{{ builddocs(build.doc, build.version, build.format, conf.repo, conf.src_dir, conf.doc_dir, conf.build_dir, build.get('clean')) }}
 
 {% endif %}
