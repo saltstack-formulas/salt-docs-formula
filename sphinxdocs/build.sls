@@ -1,5 +1,5 @@
 {% macro builddocs(doc, version, format, repo, src_dir, doc_dir, build_dir,
-    clean=False) %}
+    clean=False, force=False) %}
 
 {% set build_dir = build_dir.format(version=version) %}
 {% set id_prefix = '_'.join([doc, format, version]) %}
@@ -35,7 +35,7 @@
 
 '{{ id_prefix }}_builddocs':
   cmd:
-    - {{ 'run' if clean else 'wait' }}
+    - {{ 'run' if (clean or force) else 'wait' }}
     - name: |
         make {{ format }} SPHINXOPTS='-q' BUILDDIR={{ build_dir }} \
             SPHINXBUILD={{ venv }}/bin/sphinx-build
@@ -67,6 +67,7 @@ include:
   - git
   - sphinx_doc.venv
 
-{{ builddocs(build.doc, build.version, build.format, conf.repo, conf.src_dir, conf.doc_dir, conf.build_dir, build.get('clean')) }}
+{{ builddocs(build.doc, build.version, build.format, conf.repo, conf.src_dir,
+    conf.doc_dir, conf.build_dir, build.get('clean'), build.get('force')) }}
 
 {% endif %}
