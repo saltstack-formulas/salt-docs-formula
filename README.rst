@@ -30,6 +30,7 @@ Requires:
 
 * git-formula
 * sphinx-doc-formula
+* latex-formula (for PDF builds)
 * Pillar:
 
   * ``sphinx_doc:venv`` to point to the virtualenv that Sphinx is installed to.

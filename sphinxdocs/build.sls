@@ -38,7 +38,8 @@
     - {{ 'run' if (clean or force) else 'wait' }}
     - name: |
         make {{ format }} SPHINXOPTS='-q' BUILDDIR={{ build_dir }} \
-            SPHINXBUILD={{ venv }}/bin/sphinx-build
+            SPHINXBUILD={{ venv }}/bin/sphinx-build \
+            LATEXOPTS="-interaction=nonstopmode"
     - cwd: {{ doc_dir }}
     - watch:
       - git: {{ doc }}_repo
