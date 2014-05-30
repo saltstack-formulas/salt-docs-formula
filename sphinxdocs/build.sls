@@ -43,6 +43,18 @@
     - watch:
       - git: {{ doc }}_repo
 
+signal_build_finished:
+  module:
+    - wait
+    - name: event.fire_master
+    - tag: sphinxdocs/build/finished
+    - data:
+        format: {{ format }}
+        version: '{{ version }}'
+        build: {{ build_dir }}/{{ format }}
+    - watch:
+      - cmd: '{{ id_prefix }}_builddocs'
+
 {% endmacro %}
 
 
