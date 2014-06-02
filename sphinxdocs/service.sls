@@ -12,6 +12,7 @@ sphinxdocs_app:
     - managed
     - name: {{ app_dir }}/sphinxdocs.py
     - source: salt://sphinxdocs/sphinxdocs.py
+    - makedirs: True
 
 sphinxdocs_ini:
   file:
