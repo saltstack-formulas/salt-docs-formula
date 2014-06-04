@@ -67,6 +67,9 @@ signal_build_finished:
 include:
   - git
   - sphinx_doc.venv
+  {% if 'latex' in build.format %}
+  - latex
+  {% endif %}
 
 {{ builddocs(build.doc, build.version, build.format, conf.repo, conf.src_dir,
     conf.doc_dir, conf.build_dir, build.get('clean'), build.get('force')) }}
