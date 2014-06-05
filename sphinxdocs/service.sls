@@ -42,6 +42,8 @@ sphinxdocs_service:
     - require:
       - file: sphinxdocs_init
       - pip: cherrypy_pip
+    - watch:
+      - file: sphinxdocs_ini
 
 {% if grains['os_family'] in ['RedHat'] %}
 sysconfig_iptables:
