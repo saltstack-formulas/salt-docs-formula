@@ -42,3 +42,30 @@ sphinxdocs_service:
     - require:
       - file: sphinxdocs_init
       - pip: cherrypy_pip
+
+{% if grains['os_family'] in ['RedHat'] %}
+sysconfig_iptables:
+  file:
+    - managed
+    - name: /etc/sysconfig/iptables
+    - contents: |
+        *filter
+        :INPUT ACCEPT [0:0]
+        :FORWARD ACCEPT [0:0]
+        :OUTPUT ACCEPT [0:0]
+        -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+        -A INPUT -p icmp -j ACCEPT
+        -A INPUT -i lo -j ACCEPT
+        -A INPUT -m conntrack --ctstate NEW -m tcp -p tcp --dport 22 -j ACCEPT
+        -A INPUT -m conntrack --ctstate NEW -m tcp -p tcp --dport {{ sphinxdocs.conf.global['server.socket_port'] }} -j ACCEPT
+        -A INPUT -j REJECT --reject-with icmp-host-prohibited
+        -A FORWARD -j REJECT --reject-with icmp-host-prohibited
+        COMMIT
+
+service_iptables:
+  service:
+    - enabled
+    - name: iptables
+    - watch:
+      - file: sysconfig_iptables
+{% endif %}
