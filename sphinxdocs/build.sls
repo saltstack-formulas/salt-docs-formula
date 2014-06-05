@@ -70,6 +70,10 @@ include:
   {% if 'latex' in build.format %}
   - latex
   {% endif %}
+  {% if 'xetex' in build.format %}
+  - latex
+  - latex.xetex
+  {% endif %}
 
 {{ builddocs(build.doc, build.version, build.format, conf.repo, conf.src_dir,
     conf.doc_dir, conf.build_dir, build.get('clean'), build.get('force')) }}
