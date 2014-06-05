@@ -53,10 +53,10 @@ sphinxdocs:
 
       # See sphinxdocs.py for available ``site_paths`` values.
       vhost_urls:
-        docs.saltstack.com:8000:       /saltdocs
-        salt.docs.saltstack.com:8000:  /saltdocs
-        raet.docs.saltstack.com:8000:  /raetdocs
-        bootstrap.saltstack.com:8000:  /bootstrap
+        docs.saltstack.com:       /saltdocs
+        salt.docs.saltstack.com:  /saltdocs
+        raet.docs.saltstack.com:  /raetdocs
+        bootstrap.saltstack.com:  /bootstrap
 
       # Redirect URLs for bootstrap.saltstack.com. ``index`` is the root URL.
       bootstrap_urls:
