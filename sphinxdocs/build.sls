@@ -75,6 +75,16 @@ include:
   - latex.xetex
   {% endif %}
 
+{% if 'xetex' in build.format %}
+dejavu-fonts:
+  pkg:
+    - installed
+    - pkgs:
+      - dejavu-sans-fonts
+      - dejavu-sans-mono-fonts
+      - dejavu-serif-fonts
+{% endif %}
+
 {{ builddocs(build.doc, build.version, build.format, conf.repo, conf.src_dir,
     conf.doc_dir, conf.build_dir, build.get('clean'), build.get('force')) }}
 
