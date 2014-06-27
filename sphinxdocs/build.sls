@@ -50,8 +50,10 @@ signal_build_finished:
     - name: event.fire_master
     - tag: sphinxdocs/build/finished
     - data:
-        format: {{ format }}
+        doc: {{ doc }}
         version: '{{ version }}'
+        format: {{ format }}
+        build_dir: {{ build_dir }}
         build: {{ build_dir }}/{{ format }}
     - watch:
       - cmd: '{{ id_prefix }}_builddocs'
