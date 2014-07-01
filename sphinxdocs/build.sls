@@ -1,5 +1,5 @@
 {% macro builddocs(doc, version, format, repo, src_dir, doc_dir, build_dir,
-    clean=False, force=False) %}
+    clean=False, force=False, fire_event=True, push_files=True) %}
 
 {% set build_dir = build_dir.format(version=version) %}
 {% set id_prefix = '_'.join([doc, format, version]) %}
@@ -48,6 +48,19 @@
     - watch:
       - git: {{ doc }}_repo
 
+# Push the build up to the master.
+{% if push_files %}
+'{{ id_prefix }}_push_build':
+  module:
+    - wait
+    - name: cp.push_dir
+    - path: {{ build_dir }}/{{ format }}
+    - watch:
+      - cmd: '{{ id_prefix }}_builddocs'
+{% endif %}
+
+# Signal any interested parties that the build is ready.
+{% if fire_event %}
 '{{ id_prefix }}_build_finished':
   module:
     - wait
@@ -60,7 +73,8 @@
         build_dir: {{ build_dir }}
         build: {{ build_dir }}/{{ format }}
     - watch:
-      - cmd: '{{ id_prefix }}_builddocs'
+      - module: '{{ id_prefix }}_push_build'
+{% endif %}
 
 {% endmacro %}
 
