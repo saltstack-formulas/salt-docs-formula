@@ -65,9 +65,10 @@ sysconfig_iptables:
         COMMIT
 
 service_iptables:
-  service:
-    - enabled
-    - name: iptables
+  module:
+    - wait
+    - name: service.restart
+    - m_name: iptables
     - watch:
       - file: sysconfig_iptables
 {% endif %}
