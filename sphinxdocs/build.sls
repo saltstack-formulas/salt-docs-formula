@@ -5,12 +5,14 @@
 {% set id_prefix = '_'.join([doc, format, version]) %}
 {% set venv = salt['pillar.get']('sphinx_doc:venv') %}
 
+# Make any parent directories needed for the clone directory.
 '{{ doc }}_src_dir':
   file:
     - directory
     - name: {{ src_dir }}
     - makedirs: True
 
+# Clone the respository.
 '{{ doc }}_repo':
   git:
     - latest
@@ -21,6 +23,7 @@
       - pkg: git
       - file: {{ doc }}_src_dir
 
+# Optionally run the clean routines before running a new build.
 {% if clean %}
 '{{ id_prefix }}_cleandocs':
   cmd:
@@ -33,6 +36,7 @@
       - cmd: {{ id_prefix }}_builddocs
 {% endif %}
 
+# Build the docs.
 '{{ id_prefix }}_builddocs':
   cmd:
     - {{ 'run' if (clean or force) else 'wait' }}
