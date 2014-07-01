@@ -48,7 +48,7 @@
     - watch:
       - git: {{ doc }}_repo
 
-signal_build_finished:
+'{{ id_prefix }}_build_finished':
   module:
     - wait
     - name: event.fire_master
