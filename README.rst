@@ -4,6 +4,11 @@ salt-docs-formula
 
 Formulas to set up http://docs.saltstack.com
 
+.. admonition:: Requires Salt's develop branch
+
+    Several parts in this formula require additions or changes currently only
+    available in Salt's next feature release (Helium).
+
 .. note::
 
     See the full `Salt Formulas installation and usage instructions
