@@ -35,6 +35,8 @@ Requires:
 
 * git-formula
 * sphinx-doc-formula
+* pip-formula
+* virtualenv-formula
 * latex-formula (for PDF builds)
 * Pillar:
 
