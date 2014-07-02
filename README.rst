@@ -38,6 +38,17 @@ Requires:
 * pip-formula
 * virtualenv-formula
 * latex-formula (for PDF builds)
+* Master config:
+
+  * MinionFS config::
+
+        fileserver_backend:
+          - roots
+          - minion
+
+        file_recv: True
+        minionfs_mountpoint: salt://sphinxdocs/_builds
+
 * Pillar:
 
   * ``sphinx_doc:venv`` to point to the virtualenv that Sphinx is installed to.
