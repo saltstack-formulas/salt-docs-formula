@@ -47,7 +47,7 @@ Requires:
           - minion
 
         file_recv: True
-        minionfs_mountpoint: salt://sphinxdocs/_builds
+        minionfs_mountpoint: salt://sphinxdocs/_build
 
 * Pillar:
 
