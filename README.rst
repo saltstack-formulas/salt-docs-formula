@@ -29,7 +29,7 @@ docs of a certain version of a certain format.
 This macro can be imported into other files or used directly with the following
 call::
 
-    salt '*' state.sls sphinxdocs.build pillar='{sphinxdocs: {build: {doc: saltdocs, version: "2014.1", format: html}}}'
+    salt '*' state.sls sphinxdocs.build pillar='{sphinxdocs: {build: {doc: saltdocs, version: "2014.1", format: html, clean: False, force: False}}}'
 
 Requires:
 
