@@ -16,6 +16,7 @@ sphinxdocs:
       formats_whitelist:
         - html
         - latexpdf
+        - xetexpdf
         - epub
 
     raetdocs:
