@@ -3,7 +3,7 @@
 
 {% set build_dir = build_dir.format(version=version) %}
 {% set id_prefix = '_'.join([doc, format, version]) %}
-{% set venv = salt['pillar.get']('sphinx_doc:venv') %}
+{% set venv = salt.pillar.get('sphinx_doc:venv') %}
 
 # Make any parent directories needed for the clone directory.
 '{{ doc }}_src_dir':
@@ -79,7 +79,7 @@
 {% endmacro %}
 
 
-{% set build = salt['pillar.get']('sphinxdocs:build') %}
+{% set build = salt.pillar.get('sphinxdocs:build') %}
 {% if build %}
 {% import_yaml "sphinxdocs/defaults.yaml" as defaults %}
 {% set conf = defaults.sphinxdocs.docs[build.doc] %}
