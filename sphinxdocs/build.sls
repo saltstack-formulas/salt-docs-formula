@@ -52,27 +52,26 @@
 {% if push_files %}
 '{{ id_prefix }}_push_build':
   module:
-    - wait
+    - run
     - name: cp.push_dir
     - path: {{ build_dir }}/{{ format }}
-    - watch:
+    - onchanges:
       - cmd: '{{ id_prefix }}_builddocs'
 {% endif %}
 
 # Signal any interested parties that the build is ready.
 {% if fire_event %}
 '{{ id_prefix }}_build_finished':
-  module:
-    - wait
-    - name: event.fire_master
-    - tag: sphinxdocs/build/finished
+  event:
+    - fire_master
+    - name: sphinxdocs/build/finished
     - data:
         doc: {{ doc }}
         version: '{{ version }}'
         format: {{ format }}
         build_dir: {{ build_dir }}
         build: {{ build_dir }}/{{ format }}
-    - watch:
+    - onchanges:
       - module: '{{ id_prefix }}_push_build'
 {% endif %}
 
