@@ -8,15 +8,13 @@ include:
   - cherrypy.pip
 
 sphinxdocs_app:
-  file:
-    - managed
+  file.managed:
     - name: {{ app_dir }}/sphinxdocs.py
     - source: salt://sphinxdocs/sphinxdocs.py
     - makedirs: True
 
 sphinxdocs_ini:
-  file:
-    - managed
+  file.managed:
     - name: /etc/sphinxdocs.ini
     - source: salt://sphinxdocs/files/sphinxdocs.ini
     - template: jinja
@@ -25,8 +23,7 @@ sphinxdocs_ini:
         config: {{ sphinxdocs.get('conf', {}) | json() }}
 
 sphinxdocs_init:
-  file:
-    - managed
+  file.managed:
     - name: /etc/init.d/sphinxdocs
     - source: salt://sphinxdocs/files/sphinxdocs.init
     - template: jinja
@@ -35,8 +32,7 @@ sphinxdocs_init:
         config: {{ sphinxdocs | json() }}
 
 sphinxdocs_service:
-  service:
-    - running
+  service.running:
     - name: sphinxdocs
     - enable: True
     - require:
@@ -47,8 +43,7 @@ sphinxdocs_service:
 
 {% if grains['os_family'] in ['RedHat'] %}
 sysconfig_iptables:
-  file:
-    - managed
+  file.managed:
     - name: /etc/sysconfig/iptables
     - contents: |
         *filter
@@ -65,8 +60,7 @@ sysconfig_iptables:
         COMMIT
 
 service_iptables:
-  module:
-    - wait
+  module.wait:
     - name: service.restart
     - m_name: iptables
     - watch:
